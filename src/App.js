@@ -14,12 +14,12 @@ function App() {
     // console.log(cards);
 
     let cardsList = [];
-    for (const [i, value] of data.prizes.entries()) {
+    for (const value of data.prizes) {
       if (value.laureates) {
         let items = value.laureates.filter(item => {
           if (Number(value.year) >= 1900 && Number(value.year) <= 2018) { return true }
           else { return false }
-        }).map((item, i) => {
+        }).map((item) => {
           if (item) {
             let name = (item.surname) ? item.firstname + " " + item.surname : item.firstname
             let card = {
@@ -28,7 +28,7 @@ function App() {
               category: value.category,
               year: value.year
             }
-            return card
+            return (card);
           };
         });
 
@@ -42,7 +42,7 @@ function App() {
 
   const checkDuplicate = () => {
     let duplicateIds = [];
-    for (const [index, item] of globalCards.entries()) {
+    for (const item of globalCards) {
       // console.log(item);
       let dups = globalCards.filter((card) => card.id === item.id);
       if (dups.length > 1 && !duplicateIds.includes(dups[0].id)) {
@@ -66,7 +66,7 @@ function App() {
   const searchTextRef = useRef()
   const handleNameSearch = (e) => {
     const searchText = searchTextRef.current.value;
-    console.log(searchText)
+    // console.log(searchText)
     if (searchText === '' || searchText === null) setCards(globalCards)
     else {
       const searchedObjects = []
@@ -79,7 +79,7 @@ function App() {
         }
       })
       setCards(searchedObjects)
-      console.log(searchText);
+      // console.log(searchText);
     }
 
   }
