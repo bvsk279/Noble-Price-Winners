@@ -20,16 +20,14 @@ function App() {
           if (Number(value.year) >= 1900 && Number(value.year) <= 2018) { return true }
           else { return false }
         }).map((item) => {
-          if (item) {
-            let name = (item.surname) ? item.firstname + " " + item.surname : item.firstname
-            let card = {
-              id: item.id,
-              name: name,
-              category: value.category,
-              year: value.year
-            }
-            return (card);
-          };
+          let name = (item.surname) ? item.firstname + " " + item.surname : item.firstname
+          let card = {
+            id: item.id,
+            name: name,
+            category: value.category,
+            year: value.year
+          }
+          return (card);
         });
 
         cardsList = [...cardsList, ...items]
@@ -40,29 +38,6 @@ function App() {
     setGlobalCards(cardsList);
   }
 
-  const checkDuplicate = () => {
-    let duplicateIds = [];
-    for (const item of globalCards) {
-      // console.log(item);
-      let dups = globalCards.filter((card) => card.id === item.id);
-      if (dups.length > 1 && !duplicateIds.includes(dups[0].id)) {
-        duplicateIds.push(dups[0].id);
-      }
-    }
-
-    let specialCardsList = [];
-    for (const id of duplicateIds) {
-      let dups = globalCards.filter((card) => card.id === id);
-      let specialCard = {
-        id: id,
-        name: dups[0].name,
-        count: dups.length
-      }
-      specialCardsList.push(specialCard)
-    }
-    setSpecialCards(specialCardsList)
-  }
-
   const searchTextRef = useRef()
   const handleNameSearch = (e) => {
     const searchText = searchTextRef.current.value;
@@ -70,7 +45,7 @@ function App() {
     if (searchText === '' || searchText === null) setCards(globalCards)
     else {
       const searchedObjects = []
-      globalCards.forEach((item, index) => {
+      globalCards.forEach(item => {
         // console.log(isNaN(Number(searchText)))
         if (!isNaN(Number(searchText)) && item['year'].toLowerCase().includes(searchText.toLowerCase())) {
           searchedObjects.push(item)
@@ -84,14 +59,34 @@ function App() {
 
   }
 
-
   useEffect(() => {
-    getCards();
-  }, [])
+    const checkDuplicate = () => {
+      let duplicateIds = [];
+      for (const item of globalCards) {
+        let dups = globalCards.filter((card) => card.id === item.id);
+        if (dups.length > 1 && !duplicateIds.includes(dups[0].id)) {
+          duplicateIds.push(dups[0].id);
+        }
+      }
 
-  useEffect(() => {
-    checkDuplicate();
+      let specialCardsList = [];
+      for (const id of duplicateIds) {
+        let dups = globalCards.filter((card) => card.id === id);
+        let specialCard = {
+          id: id,
+          name: dups[0].name,
+          count: dups.length
+        }
+        specialCardsList.push(specialCard)
+      }
+      setSpecialCards(specialCardsList)
+    }
+    checkDuplicate()
   }, [globalCards])
+
+  useEffect(() => {
+    getCards()
+  }, [])
 
   return (
     <>
