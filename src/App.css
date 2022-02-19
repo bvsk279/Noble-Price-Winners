@@ -168,6 +168,9 @@ header .auther {
   color: #dfdfdf;
   padding-right: 15px;
 }
+.main-content .item table tr:nth-child(2) > td:last-child {
+  text-transform: capitalize;
+}
 .main-content .item table td {
   padding: 4px 5px;
 }
