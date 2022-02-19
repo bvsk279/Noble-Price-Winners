@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './App.css';
 
-const url = "http://api.nobelprize.org/v1/prize.json";
+const url = "https://api.nobelprize.org/v1/prize.json";
 function App() {
   const [cards, setCards] = useState([]);
   const [globalCards, setGlobalCards] = useState([]);
